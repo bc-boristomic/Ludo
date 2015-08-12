@@ -71,29 +71,16 @@ public class TryBluePlayer extends JFrame {
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[10][10]
 						&& label[10][10].getBackground().equals(Color.BLUE)) {
-
-					if (label[6][10].getBackground().equals(Color.WHITE)) {
-						label[6][10].setBackground(Color.BLUE);
-						label[10][10].setBackground(new Color(179, 217, 255));
-					}
+					ExitHouseUtility.setBluePlayer(4, label);
 				} else if (e.getSource() == label[10][9]
 						&& label[10][9].getBackground().equals(Color.BLUE)) {
-					if (label[6][10].getBackground().equals(Color.WHITE)) {
-						label[6][10].setBackground(Color.BLUE);
-						label[10][9].setBackground(new Color(179, 217, 255));
-					}
+					ExitHouseUtility.setBluePlayer(3, label);
 				} else if (e.getSource() == label[9][10]
 						&& label[9][10].getBackground().equals(Color.BLUE)) {
-					if (label[6][10].getBackground().equals(Color.WHITE)) {
-						label[6][10].setBackground(Color.BLUE);
-						label[9][10].setBackground(new Color(179, 217, 255));
-					}
+					ExitHouseUtility.setBluePlayer(2, label);
 				} else if (e.getSource() == label[9][9]
 						&& label[9][9].getBackground().equals(Color.BLUE)) {
-					if (label[6][10].getBackground().equals(Color.WHITE)) {
-						label[6][10].setBackground(Color.BLUE);
-						label[9][9].setBackground(new Color(179, 217, 255));
-					}
+					ExitHouseUtility.setBluePlayer(1, label);
 				}
 			}
 		}

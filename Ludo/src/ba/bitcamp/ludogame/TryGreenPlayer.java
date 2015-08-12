@@ -71,29 +71,16 @@ public class TryGreenPlayer extends JFrame {
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[0][10]
 						&& label[0][10].getBackground().equals(Color.GREEN)) {
-
-					if (label[0][6].getBackground().equals(Color.WHITE)) {
-						label[0][6].setBackground(Color.GREEN);
-						label[0][10].setBackground(new Color(179, 255, 179));
-					}
+					ExitHouseUtility.setGreenPlayer(2, label);
 				} else if (e.getSource() == label[0][9]
 						&& label[0][9].getBackground().equals(Color.GREEN)) {
-					if (label[0][6].getBackground().equals(Color.WHITE)) {
-						label[0][6].setBackground(Color.GREEN);
-						label[0][9].setBackground(new Color(179, 255, 179));
-					}
+					ExitHouseUtility.setGreenPlayer(1, label);
 				} else if (e.getSource() == label[1][10]
 						&& label[1][10].getBackground().equals(Color.GREEN)) {
-					if (label[0][6].getBackground().equals(Color.WHITE)) {
-						label[0][6].setBackground(Color.GREEN);
-						label[1][10].setBackground(new Color(179, 255, 179));
-					}
+					ExitHouseUtility.setGreenPlayer(4, label);
 				} else if (e.getSource() == label[1][9]
 						&& label[1][9].getBackground().equals(Color.GREEN)) {
-					if (label[0][6].getBackground().equals(Color.WHITE)) {
-						label[0][6].setBackground(Color.GREEN);
-						label[1][9].setBackground(new Color(179, 255, 179));
-					}
+					ExitHouseUtility.setGreenPlayer(3, label);
 				}
 			}
 		}

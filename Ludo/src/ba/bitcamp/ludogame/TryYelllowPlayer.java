@@ -71,29 +71,16 @@ public class TryYelllowPlayer extends JFrame {
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[10][0]
 						&& label[10][0].getBackground().equals(Color.YELLOW)) {
-
-					if (label[10][4].getBackground().equals(Color.WHITE)) {
-						label[10][4].setBackground(Color.YELLOW);
-						label[10][0].setBackground(new Color(235, 255, 122));
-					}
+					ExitHouseUtility.setYellowPlayer(3, label);
 				} else if (e.getSource() == label[9][0]
 						&& label[9][0].getBackground().equals(Color.YELLOW)) {
-					if (label[10][4].getBackground().equals(Color.WHITE)) {
-						label[10][4].setBackground(Color.YELLOW);
-						label[9][0].setBackground(new Color(235, 255, 122));
-					}
+					ExitHouseUtility.setYellowPlayer(1, label);
 				} else if (e.getSource() == label[10][1]
 						&& label[10][1].getBackground().equals(Color.YELLOW)) {
-					if (label[10][4].getBackground().equals(Color.WHITE)) {
-						label[10][4].setBackground(Color.YELLOW);
-						label[10][1].setBackground(new Color(235, 255, 122));
-					}
+					ExitHouseUtility.setYellowPlayer(4, label);
 				} else if (e.getSource() == label[9][1]
 						&& label[9][1].getBackground().equals(Color.YELLOW)) {
-					if (label[10][4].getBackground().equals(Color.WHITE)) {
-						label[10][4].setBackground(Color.YELLOW);
-						label[9][1].setBackground(new Color(235, 255, 122));
-					}
+					ExitHouseUtility.setYellowPlayer(2, label);
 				}
 			}
 		}

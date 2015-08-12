@@ -49,7 +49,8 @@ public class TryRedPlayer extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility.getRandomNumber())));
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
 				p1.setDiceValue(dice.getValue());
 				p2.setDiceValue(dice.getValue());
 				p3.setDiceValue(dice.getValue());
@@ -71,29 +72,16 @@ public class TryRedPlayer extends JFrame {
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[0][0]
 						&& label[0][0].getBackground().equals(Color.RED)) {
-
-					if (label[4][0].getBackground().equals(Color.WHITE)) {
-						label[4][0].setBackground(Color.RED);
-						label[0][0].setBackground(new Color(247, 64, 86));
-					}
+					ExitHouseUtility.setRedPlayerHouse(1, label);
 				} else if (e.getSource() == label[0][1]
 						&& label[0][1].getBackground().equals(Color.RED)) {
-					if (label[4][0].getBackground().equals(Color.WHITE)) {
-						label[4][0].setBackground(Color.RED);
-						label[0][1].setBackground(new Color(247, 64, 86));
-					}
+					ExitHouseUtility.setRedPlayerHouse(2, label);
 				} else if (e.getSource() == label[1][0]
 						&& label[1][0].getBackground().equals(Color.RED)) {
-					if (label[4][0].getBackground().equals(Color.WHITE)) {
-						label[4][0].setBackground(Color.RED);
-						label[1][0].setBackground(new Color(247, 64, 86));
-					}
+					ExitHouseUtility.setRedPlayerHouse(3, label);
 				} else if (e.getSource() == label[1][1]
 						&& label[1][1].getBackground().equals(Color.RED)) {
-					if (label[4][0].getBackground().equals(Color.WHITE)) {
-						label[4][0].setBackground(Color.RED);
-						label[1][1].setBackground(new Color(247, 64, 86));
-					}
+					ExitHouseUtility.setRedPlayerHouse(4, label);
 				}
 			}
 		}
@@ -124,4 +112,3 @@ public class TryRedPlayer extends JFrame {
 	}
 
 }
-
