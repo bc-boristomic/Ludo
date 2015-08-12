@@ -17,7 +17,7 @@ public class Server {
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	
-	private Player[] players = new Player[4];
+	private Pawn[] players = new Pawn[4];
 	
 	public Server() {
 		 try {

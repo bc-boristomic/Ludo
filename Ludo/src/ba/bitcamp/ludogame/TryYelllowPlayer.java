@@ -12,10 +12,10 @@ import javax.swing.JLabel;
 public class TryYelllowPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Player p1 = new Player(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Player p2 = new Player(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Player p3 = new Player(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Player p4 = new Player(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
+	private Pawn p1 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
+	private Pawn p2 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
+	private Pawn p3 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
+	private Pawn p4 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
 
 	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
