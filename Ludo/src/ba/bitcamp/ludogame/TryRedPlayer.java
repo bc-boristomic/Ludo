@@ -4,19 +4,29 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 public class TryRedPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
+	private Socket socket;
 	private Pawn p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
 	private Pawn p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
 	private Pawn p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
 	private Pawn p4 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-
+	private BufferedReader reader;
+	private ObjectMapper mapper = new ObjectMapper();
+	
 	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
@@ -24,7 +34,7 @@ public class TryRedPlayer extends JFrame {
 
 	public TryRedPlayer() {
 		setLayout(new GridLayout(11, 11));
-
+		
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
@@ -32,16 +42,32 @@ public class TryRedPlayer extends JFrame {
 				add(label[i][j]);
 			}
 		}
-
+		
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
+		
+		Message m;
+		try {
+			socket = new Socket("localhost", Server.PORT);
+			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			m = mapper.readValue(socket.getInputStream(), Message.class);
+			System.out.println(m);
+			System.out.println(m.getX1() + "" + m.getY1());
+			label[m.getX1()][m.getY1()].setBackground(Color.BLACK);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		
+		
+		
 	}
 
 	private class Action extends MouseAdapter {
@@ -109,6 +135,7 @@ public class TryRedPlayer extends JFrame {
 	public static void main(String[] args) {
 
 		new TryRedPlayer();
+
 	}
 
 }
