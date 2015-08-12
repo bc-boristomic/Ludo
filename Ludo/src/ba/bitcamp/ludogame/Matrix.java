@@ -119,7 +119,7 @@ public class Matrix extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == label[5][5]) {
-				value = Utility.getRandomNumber();
+				value = NumUtility.getRandomNumber();
 				label[5][5].setIcon(new ImageIcon(new Dice()
 						.getRandomDice(value)));
 

@@ -76,8 +76,8 @@ public class Pawn {
 					|| tempMove + diceValue == tempMoveOther3) {
 				label[x][y].setBackground(main);
 			} else if (tempMove + diceValue < 44) {
-				x = Utility.getMovement(main)[tempMove + diceValue][0];
-				y = Utility.getMovement(main)[tempMove + diceValue][1];
+				x = GameUtility.getMovement(main)[tempMove + diceValue][0];
+				y = GameUtility.getMovement(main)[tempMove + diceValue][1];
 				tempMove += diceValue;
 				label[x][y].setBackground(main);
 

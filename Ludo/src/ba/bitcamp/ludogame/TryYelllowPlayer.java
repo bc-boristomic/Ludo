@@ -25,7 +25,7 @@ public class TryYelllowPlayer extends JFrame {
 	public TryYelllowPlayer() {
 		setLayout(new GridLayout(11, 11));
 
-		label = Utility.getGameLabels();
+		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
 				label[i][j].addMouseListener(new Action());
@@ -49,7 +49,7 @@ public class TryYelllowPlayer extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(Utility.getRandomNumber())));
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility.getRandomNumber())));
 				p1.setDiceValue(dice.getValue());
 				p2.setDiceValue(dice.getValue());
 				p3.setDiceValue(dice.getValue());

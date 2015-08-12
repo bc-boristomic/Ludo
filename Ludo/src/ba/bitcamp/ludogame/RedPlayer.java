@@ -127,7 +127,7 @@ public class RedPlayer extends JFrame {
 			if (e.getSource() == label[5][5]) {
 				if (diceCounter < 3 || diceValue == 6 || nextTurn) {
 					diceCounter++;
-					diceValue = Utility.getRandomNumber();
+					diceValue = NumUtility.getRandomNumber();
 					label[5][5].setIcon(new ImageIcon(new Dice()
 							.getRandomDice(diceValue)));
 					System.out.println(diceValue);

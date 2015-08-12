@@ -8,13 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Utility {
-
-	public static int getRandomNumber() {
-		Random rand = new Random();
-		int option = rand.nextInt(6) + 1;
-		return option;
-	}
+public class GameUtility {
 
 	public static int[][] getMovement(Color color) {
 		if (color == Color.YELLOW) {
@@ -112,7 +106,8 @@ public class Utility {
 					label[i][j].setBorder(BorderFactory
 							.createLineBorder(Color.BLACK));
 				} else if (getGameMatrix()[i][j] == 6) {
-					label[i][j].setIcon(new ImageIcon(new Dice().getRandomDice(6)));
+					label[i][j].setIcon(new ImageIcon(new Dice()
+							.getRandomDice(6)));
 				} else if (getGameMatrix()[i][j] == 7) {
 					label[i][j].setBackground(new Color(247, 64, 86));
 					label[i][j].setBorder(BorderFactory
