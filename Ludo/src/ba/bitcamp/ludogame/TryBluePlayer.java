@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
@@ -17,14 +18,15 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 public class TryBluePlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
-	
+
 	private Socket socket;
 	private Pawn p1 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p2 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p3 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p4 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
-	public BufferedWriter writer;
-	
+
+	private OutputStream os = null;
+
 	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
@@ -34,7 +36,7 @@ public class TryBluePlayer extends JFrame {
 		setLayout(new GridLayout(11, 11));
 		try {
 			socket = new Socket("localhost", Server.PORT);
-			writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			os = socket.getOutputStream();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,7 +66,8 @@ public class TryBluePlayer extends JFrame {
 		public void mousePressed(MouseEvent e) {
 
 			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility.getRandomNumber())));
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
 				p1.setDiceValue(dice.getValue());
 				p2.setDiceValue(dice.getValue());
 				p3.setDiceValue(dice.getValue());
@@ -98,36 +101,36 @@ public class TryBluePlayer extends JFrame {
 					ExitHouseUtility.setBluePlayer(1, label);
 				}
 			}
-			
-			Message m = new Message(p1.getX(), p2.getX(), p3.getX(), p4.getX(), p1.getY(), p2.getY(), p3.getY(), p4.getY(), Color.BLUE);
-			
+
+			Message m = new Message(p1.getX(), p2.getX(), p3.getX(), p4.getX(),
+					p1.getY(), p2.getY(), p3.getY(), p4.getY(), "blue");
+
 			ObjectMapper mapper = new ObjectMapper();
-			while(true) {
+
 			try {
-				mapper.writeValue(socket.getOutputStream(), m);
+				mapper.writeValue(os, m);
 			} catch (IOException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-			}
-//			try {
-//				writer.write(p1.getX() + " " + p1.getY() + "blue");
-//				writer.newLine();
-//				writer.write(p2.getX() + " " + p2.getY() + "blue");
-//				writer.newLine();
-//				writer.write(p3.getX() + " " + p3.getY() + "blue");
-//				writer.newLine();
-//				writer.write(p4.getX() + " " + p4.getY() + "blue");
-//				writer.newLine();
-//				writer.flush();
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			System.out.println(p1.getX() + " " + p1.getY());
-//			System.out.println(p2.getX() + " " + p2.getY());
-//			System.out.println(p3.getX() + " " + p3.getY());
-//			System.out.println(p4.getX() + " " + p4.getY());
+
+			// try {
+			// writer.write(p1.getX() + " " + p1.getY() + "blue");
+			// writer.newLine();
+			// writer.write(p2.getX() + " " + p2.getY() + "blue");
+			// writer.newLine();
+			// writer.write(p3.getX() + " " + p3.getY() + "blue");
+			// writer.newLine();
+			// writer.write(p4.getX() + " " + p4.getY() + "blue");
+			// writer.newLine();
+			// writer.flush();
+			// } catch (IOException e1) {
+			// // TODO Auto-generated catch block
+			// e1.printStackTrace();
+			// }
+			// System.out.println(p1.getX() + " " + p1.getY());
+			// System.out.println(p2.getX() + " " + p2.getY());
+			// System.out.println(p3.getX() + " " + p3.getY());
+			// System.out.println(p4.getX() + " " + p4.getY());
 		}
 
 	}
@@ -156,4 +159,3 @@ public class TryBluePlayer extends JFrame {
 	}
 
 }
-

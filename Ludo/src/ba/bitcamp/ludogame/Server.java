@@ -1,16 +1,15 @@
 package ba.bitcamp.ludogame;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -25,8 +24,8 @@ public class Server {
 	private Socket client3;
 	private Socket client4;
 	
-	private BufferedReader reader;
-	private BufferedWriter writer;
+	private InputStream is;
+	private OutputStream os;
 	private ObjectMapper mapper = new ObjectMapper();
 
 	// private LinkedBlockingQueue<Message> queue = new
@@ -36,19 +35,22 @@ public class Server {
 
 	public Server() {
 		try {
-			server = new ServerSocket(PORT);
+		server = new ServerSocket(PORT);
+		while (true) {
 				client1 = server.accept();
+				os = client1.getOutputStream();
 		//		client2 = server.accept();
 				System.out.println("Connected");
 				while (true) {
-				reader = new BufferedReader(new InputStreamReader(client1.getInputStream()));
-				writer = new BufferedWriter(new OutputStreamWriter(client1.getOutputStream()));
-				Message m = mapper.readValue(client1.getInputStream(), Message.class);
-				mapper.writeValue(client1.getOutputStream(), m);
+					Message m = new Message(8, 6, 6, 6, 4, 10, 10, 10, "blue");
+					System.out.println(m);
+					mapper.writeValue(os, m);
+				client1.close();
 //				mapper.writeValue(client3.getOutputStream(), m);
 //				mapper.writeValue(client4.getOutputStream(), m);
 			}
 
+		}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

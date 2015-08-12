@@ -5,8 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
@@ -24,7 +24,8 @@ public class TryRedPlayer extends JFrame {
 	private Pawn p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
 	private Pawn p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
 	private Pawn p4 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-	private BufferedReader reader;
+	
+	private InputStream is;
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	public int[][] matrix;
@@ -33,6 +34,10 @@ public class TryRedPlayer extends JFrame {
 	private Dice dice = new Dice();
 
 	public TryRedPlayer() {
+		try {
+		socket = new Socket("localhost", Server.PORT);
+		is = socket.getInputStream();
+		
 		setLayout(new GridLayout(11, 11));
 		
 		label = GameUtility.getGameLabels();
@@ -43,23 +48,20 @@ public class TryRedPlayer extends JFrame {
 			}
 		}
 		
+			Message m = mapper.readValue(is, Message.class);
+			System.out.println(m);
+			System.out.println(m.getX1() + " " + m.getY1());
+			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
 		
-		Message m;
-		try {
-			socket = new Socket("localhost", Server.PORT);
-			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			m = mapper.readValue(socket.getInputStream(), Message.class);
-			System.out.println(m);
-			System.out.println(m.getX1() + "" + m.getY1());
-			label[m.getX1()][m.getY1()].setBackground(Color.BLACK);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 		setSize(800, 800);
 		setLocationRelativeTo(null);
@@ -82,7 +84,6 @@ public class TryRedPlayer extends JFrame {
 				p3.setDiceValue(dice.getValue());
 				p4.setDiceValue(dice.getValue());
 			}
-
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {

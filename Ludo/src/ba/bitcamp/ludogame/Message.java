@@ -12,9 +12,13 @@ public class Message {
 	private int y2;
 	private int y3;
 	private int y4;
-	private Color color;
+	private String color;
 	
-	public Message(int x1, int x2, int x3, int x4, int y1, int y2, int y3, int y4, Color color) {
+	public Message() {
+		
+	}
+	
+	public Message(int x1, int x2, int x3, int x4, int y1, int y2, int y3, int y4, String color) {
 		super();
 		this.x1 = x1;
 		this.x2 = x2;
@@ -59,7 +63,7 @@ public class Message {
 		return y4;
 	}
 
-	public Color getColor() {
+	public String getColor() {
 		return color;
 	}
 
