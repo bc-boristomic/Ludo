@@ -25,7 +25,7 @@ public class TryYelllowPlayer extends JFrame {
 	public JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
-
+		
 	public TryYelllowPlayer() throws IOException {
 
 		setLayout(new GridLayout(11, 11));
