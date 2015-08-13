@@ -20,9 +20,9 @@ import javax.swing.JOptionPane;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
-public class TryRedPlayer extends JFrame {
-	private static final long serialVersionUID = 311184114665588161L;
-
+public class Player extends JFrame {
+	private static final long serialVersionUID = -1789540956904875170L;
+	
 	private Pawn p1; 
 	private Pawn p2; 
 	private Pawn p3; 
@@ -37,19 +37,28 @@ public class TryRedPlayer extends JFrame {
 	private InputStream is;
 	private OutputStream os;
 	private ObjectMapper mapper = new ObjectMapper();
+	
+	private Color main;
+	private Color other;
+	
+	private BufferedImage pawn;
+	private BufferedImage house;
+	
 
-	public TryRedPlayer() throws IOException {
+	public Player(Color main, Color other, BufferedImage pawn, BufferedImage house) throws IOException {
 		
+		this.main = main;
+		this.other = other;
+		this.pawn = pawn;
+		this.house = house;
 		
+		String name = JOptionPane.showInputDialog("Enter your name");
 		setLayout(new GridLayout(11, 11));
 		
-		BufferedImage pawn = ImageIO.read(new File("graphics/red.png"));
-		BufferedImage house = ImageIO.read(new File("graphics/home.png"));
-		
-		p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
-		p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
-		p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
-		p4 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
+		p1 = new Pawn(4, 0, main, other, 0, pawn, house);
+		p2 = new Pawn(4, 0, main, other, 0, pawn, house);
+		p3 = new Pawn(4, 0, main, other, 0, pawn, house);
+		p4 = new Pawn(4, 0, main, other, 0, pawn, house);
 
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
@@ -72,7 +81,7 @@ public class TryRedPlayer extends JFrame {
 		p3.setLabel(label);
 		p4.setLabel(label);
 		
-		setTitle("Red player");
+		setTitle(name);
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -124,16 +133,16 @@ public class TryRedPlayer extends JFrame {
 
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[0][0]
-						&& label[0][0].getBackground().equals(Color.RED)) {
+						&& label[0][0].getBackground().equals(main)) {
 					ExitHouseUtility.setRedPlayerHouse(1, label);
 				} else if (e.getSource() == label[0][1]
-						&& label[0][1].getBackground().equals(Color.RED)) {
+						&& label[0][1].getBackground().equals(main)) {
 					ExitHouseUtility.setRedPlayerHouse(2, label);
 				} else if (e.getSource() == label[1][0]
-						&& label[1][0].getBackground().equals(Color.RED)) {
+						&& label[1][0].getBackground().equals(main)) {
 					ExitHouseUtility.setRedPlayerHouse(3, label);
 				} else if (e.getSource() == label[1][1]
-						&& label[1][1].getBackground().equals(Color.RED)) {
+						&& label[1][1].getBackground().equals(main)) {
 					ExitHouseUtility.setRedPlayerHouse(4, label);
 				}
 			}
@@ -160,13 +169,16 @@ public class TryRedPlayer extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		PlayerGraphics pg = new PlayerGraphics();
+
 
 		try {
-			new TryRedPlayer();
+			new Player(Color.RED, new Color(247, 64, 86), pg.getRed(), pg.getRedHouse());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
 
 }

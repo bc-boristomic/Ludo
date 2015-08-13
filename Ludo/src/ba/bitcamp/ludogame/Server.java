@@ -42,14 +42,13 @@ public class Server {
 				os = client1.getOutputStream();
 		//		client2 = server.accept();
 				System.out.println("Connected");
-				while (true) {
 					Message m = new Message(8, 6, 6, 6, 4, 10, 10, 10, "blue");
 					System.out.println(m);
 					mapper.writeValue(os, m);
-				client1.close();
+				//client1.close();
 //				mapper.writeValue(client3.getOutputStream(), m);
 //				mapper.writeValue(client4.getOutputStream(), m);
-			}
+			
 
 		}
 		} catch (IOException e) {

@@ -152,8 +152,8 @@ public class GameUtility {
 						label[i][j].setBackground(Color.WHITE);
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
-						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("graphics/road.jpg"))));
+						//label[i][j].setIcon(new ImageIcon(ImageIO
+						//		.read(new File("graphics/road.jpg"))));
 					} else if (getGameMatrix()[i][j] == 4) {
 						label[i][j].setBackground(Color.BLUE);
 						label[i][j].setBorder(BorderFactory
