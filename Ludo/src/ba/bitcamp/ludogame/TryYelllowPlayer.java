@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,42 +16,57 @@ import javax.swing.JLabel;
 public class TryYelllowPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Pawn p1 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
-	private Pawn p2 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
-	private Pawn p3 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
-	private Pawn p4 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
+	private static Pawn p1;
+	private static Pawn p2;
+	private static Pawn p3;
+	private static Pawn p4;
 
+	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
 
-	public TryYelllowPlayer() {
+	public TryYelllowPlayer() throws IOException {
+
 		setLayout(new GridLayout(11, 11));
+
+		BufferedImage pawn = ImageIO.read(new File("yellow.png"));
+		BufferedImage house = ImageIO.read(new File("yellowhome.png"));
+
+		p1 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0, pawn,
+				house);
+		p2 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0, pawn,
+				house);
+		p3 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0, pawn,
+				house);
+		p4 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0, pawn,
+				house);
 
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				if (!label[i][j].equals(label[5][5])) {
-					label[i][j].addMouseListener(new Action());
-				}
+				label[i][j].addMouseListener(new Action());
 				add(label[i][j]);
 			}
 		}
-		label[5][5].addMouseListener(new DiceAction());
+
+		label[10][0].setIcon(new ImageIcon(pawn));
+		label[9][0].setIcon(new ImageIcon(pawn));
+		label[9][1].setIcon(new ImageIcon(pawn));
+		label[10][1].setIcon(new ImageIcon(pawn));
 
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
 
-		setTitle("Yellow player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
-	private class DiceAction extends MouseAdapter {
+	private class Action extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -59,13 +78,6 @@ public class TryYelllowPlayer extends JFrame {
 				p3.setDiceValue(dice.getValue());
 				p4.setDiceValue(dice.getValue());
 			}
-		}
-	}
-
-	private class Action extends MouseAdapter {
-
-		@Override
-		public void mousePressed(MouseEvent e) {
 
 			setSamePlayerUneatable();
 
@@ -118,7 +130,12 @@ public class TryYelllowPlayer extends JFrame {
 
 	public static void main(String[] args) {
 
-		new TryYelllowPlayer();
+		try {
+			new TryYelllowPlayer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

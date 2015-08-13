@@ -4,78 +4,65 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import org.codehaus.jackson.map.ObjectMapper;
-
 
 public class TryRedPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Pawn p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-	private Pawn p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-	private Pawn p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-	private Pawn p4 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0);
-	private Dice dice = new Dice();
+	private Pawn p1; 
+	private Pawn p2; 
+	private Pawn p3; 
+	private Pawn p4;
 
+	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
-	private Socket socket;
-	private InputStream is;
-	private OutputStream os;
-	private ObjectMapper mapper = new ObjectMapper();
+	private Dice dice = new Dice();
 
-	public TryRedPlayer() {
-//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
-//		try {
-//			socket = new Socket(serverIp, Server.PORT);
-//			is = socket.getInputStream();
-//
-//			Message m = mapper.readValue(is, Message.class);
-//			System.out.println(m);
-//			System.out.println(m.getX1() + " " + m.getY1());
-//			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
-//		} catch (IOException ex) {
-//			// TODO exception handling
-//			ex.printStackTrace();
-//		}
+	public TryRedPlayer() throws IOException {
 		setLayout(new GridLayout(11, 11));
 		
+		BufferedImage pawn = ImageIO.read(new File("red.png"));
+		BufferedImage house = ImageIO.read(new File("home.png"));
+		
+		p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
+		p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
+		p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
+		p4 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
+
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				if (!label[i][j].equals(label[5][5])) {
-					label[i][j].addMouseListener(new Action());
-				}
+				label[i][j].addMouseListener(new Action());
 				add(label[i][j]);
 			}
 		}
-		label[5][5].addMouseListener(new DiceAction());
-
+		
+		label[0][0].setIcon(new ImageIcon(pawn));
+		label[0][1].setIcon(new ImageIcon(pawn));
+		label[1][0].setIcon(new ImageIcon(pawn));
+		label[1][1 ].setIcon(new ImageIcon(pawn));
 
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
 
-		setTitle("Red player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-
 	}
 
-	private class DiceAction extends MouseAdapter {
-		
+	private class Action extends MouseAdapter {
+
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == label[5][5]) {
@@ -86,14 +73,7 @@ public class TryRedPlayer extends JFrame {
 				p3.setDiceValue(dice.getValue());
 				p4.setDiceValue(dice.getValue());
 			}
-		}
-	}
-	
-	private class Action extends MouseAdapter {
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-		
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {
@@ -145,8 +125,12 @@ public class TryRedPlayer extends JFrame {
 
 	public static void main(String[] args) {
 
-		new TryRedPlayer();
-
+		try {
+			new TryRedPlayer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
