@@ -5,10 +5,14 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import javax.imageio.ImageIO;
@@ -19,33 +23,33 @@ import javax.swing.JOptionPane;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import ba.bitcamp.ludogame.TryBluePlayer.Listener;
 
 public class TryRedPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Pawn p1; 
-	private Pawn p2; 
-	private Pawn p3; 
+	private Pawn p1;
+	private Pawn p2;
+	private Pawn p3;
 	private Pawn p4;
 
 	public int[][] matrix;
-	public JLabel[][] label = new JLabel[11][11];
+	public static JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
-	
+
 	private Socket socket;
-	private InputStream is;
-	private OutputStream os;
+	private static BufferedReader reader;
+	private BufferedWriter writer;
 	private ObjectMapper mapper = new ObjectMapper();
 
 	public TryRedPlayer() throws IOException {
-		
-		
+
 		setLayout(new GridLayout(11, 11));
-		
+
 		BufferedImage pawn = ImageIO.read(new File("graphics/red.png"));
 		BufferedImage house = ImageIO.read(new File("graphics/home.png"));
-		
+
 		p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
 		p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
 		p3 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
@@ -62,46 +66,52 @@ public class TryRedPlayer extends JFrame {
 		}
 		label[5][5].addMouseListener(new DiceAction());
 		
+		
 		label[0][0].setIcon(new ImageIcon(pawn));
 		label[0][1].setIcon(new ImageIcon(pawn));
 		label[1][0].setIcon(new ImageIcon(pawn));
-		label[1][1 ].setIcon(new ImageIcon(pawn));
+		label[1][1].setIcon(new ImageIcon(pawn));
 
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
-		
+
 		setTitle("Red player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		
-		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
-		try {
-			socket = new Socket(serverIp, Server.PORT);
-			is = socket.getInputStream();
-			Message m = mapper.readValue(is, Message.class);
-			System.out.println(m.getX1() + " " + m.getY1());
-			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
-		} catch (IOException ex) {
-			// TODO exception handling
-			ex.printStackTrace();
-		}
+
+		// String serverIp =
+		// JOptionPane.showInputDialog("Enter server IP address");
+		// try {
+		socket = new Socket("localhost", Server.PORT);
+		reader = new BufferedReader(new InputStreamReader(
+				socket.getInputStream()));
+		writer = new BufferedWriter(new OutputStreamWriter(
+				socket.getOutputStream()));
+		// is = socket.getInputStream();
+		// Message m = mapper.readValue(is, Message.class);
+		//
+		// label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+		// } catch (IOException ex) {
+		// // TODO exception handling
+		// ex.printStackTrace();
+		// }
 	}
-	
+
 	private class DiceAction extends MouseAdapter {
 		@Override
- 		public void mousePressed(MouseEvent e) {
- 			if (e.getSource() == label[5][5]) {
- 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
- 						.getRandomNumber())));
- 				p1.setDiceValue(dice.getValue());
- 				p2.setDiceValue(dice.getValue());
- 				p3.setDiceValue(dice.getValue());
- 				p4.setDiceValue(dice.getValue());
- 			}
+		public void mousePressed(MouseEvent e) {
+			if (e.getSource() == label[5][5]) {
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
+				p1.setDiceValue(dice.getValue());
+				p2.setDiceValue(dice.getValue());
+				p3.setDiceValue(dice.getValue());
+				p4.setDiceValue(dice.getValue());
+			}
 		}
 	}
 
@@ -109,7 +119,7 @@ public class TryRedPlayer extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			
+
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {
@@ -137,6 +147,18 @@ public class TryRedPlayer extends JFrame {
 					ExitHouseUtility.setRedPlayerHouse(4, label);
 				}
 			}
+
+			String msg = p1.getX() + " " + p1.getY() + " " + p2.getX() + " "
+					+ p2.getY() + " " + p3.getX() + " " + p3.getY() + " "
+					+ p4.getX() + " " + p4.getY() + " " + "red";
+			try {
+				writer.write(msg);
+				writer.newLine();
+				writer.flush();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -163,10 +185,74 @@ public class TryRedPlayer extends JFrame {
 
 		try {
 			new TryRedPlayer();
+			new Listener().start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public static class Listener extends Thread {
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					String msg = reader.readLine();
+					String[] splitedmsg = msg.split(" ");
+					int[] parsesplit = new int[splitedmsg.length - 1];
+					for (int i = 0; i < splitedmsg.length - 1; i++) {
+						parsesplit[i] = Integer.parseInt(splitedmsg[i]);
+					}
+					switch (splitedmsg[8]) {
+					case "blue":
+						label[parsesplit[0]][parsesplit[1]]
+								.setBackground(Color.BLUE);
+						label[parsesplit[2]][parsesplit[3]]
+								.setBackground(Color.BLUE);
+						label[parsesplit[4]][parsesplit[5]]
+								.setBackground(Color.BLUE);
+						label[parsesplit[6]][parsesplit[7]]
+								.setBackground(Color.BLUE);
+						break;
+					case "red":
+						label[parsesplit[0]][parsesplit[1]]
+								.setBackground(Color.RED);
+						label[parsesplit[2]][parsesplit[3]]
+								.setBackground(Color.RED);
+						label[parsesplit[4]][parsesplit[5]]
+								.setBackground(Color.RED);
+						label[parsesplit[6]][parsesplit[7]]
+								.setBackground(Color.RED);
+						break;
+					case "green":
+						label[parsesplit[0]][parsesplit[1]]
+								.setBackground(Color.GREEN);
+						label[parsesplit[2]][parsesplit[3]]
+								.setBackground(Color.GREEN);
+						label[parsesplit[4]][parsesplit[5]]
+								.setBackground(Color.GREEN);
+						label[parsesplit[6]][parsesplit[7]]
+								.setBackground(Color.GREEN);
+						break;
+					case "yellow":
+						label[parsesplit[0]][parsesplit[1]]
+								.setBackground(Color.YELLOW);
+						label[parsesplit[2]][parsesplit[3]]
+								.setBackground(Color.YELLOW);
+						label[parsesplit[4]][parsesplit[5]]
+								.setBackground(Color.YELLOW);
+						label[parsesplit[6]][parsesplit[7]]
+								.setBackground(Color.YELLOW);
+						break;
+
+					}
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}
+	}
 }
