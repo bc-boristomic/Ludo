@@ -12,12 +12,11 @@ import javax.swing.JLabel;
 public class TryYelllowPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Pawn p1 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Pawn p2 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Pawn p3 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
-	private Pawn p4 = new Pawn(10, 4, Color.YELLOW,	new Color(235, 255, 122), 0);
+	private Pawn p1 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
+	private Pawn p2 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
+	private Pawn p3 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
+	private Pawn p4 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0);
 
-	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
@@ -28,33 +27,45 @@ public class TryYelllowPlayer extends JFrame {
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				label[i][j].addMouseListener(new Action());
+				if (!label[i][j].equals(label[5][5])) {
+					label[i][j].addMouseListener(new Action());
+				}
 				add(label[i][j]);
 			}
 		}
+		label[5][5].addMouseListener(new DiceAction());
 
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
 
+		setTitle("Yellow player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
-	private class Action extends MouseAdapter {
+	private class DiceAction extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility.getRandomNumber())));
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
 				p1.setDiceValue(dice.getValue());
 				p2.setDiceValue(dice.getValue());
 				p3.setDiceValue(dice.getValue());
 				p4.setDiceValue(dice.getValue());
 			}
+		}
+	}
+
+	private class Action extends MouseAdapter {
+
+		@Override
+		public void mousePressed(MouseEvent e) {
 
 			setSamePlayerUneatable();
 

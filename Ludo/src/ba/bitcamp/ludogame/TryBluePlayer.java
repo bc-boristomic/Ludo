@@ -4,67 +4,72 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class TryBluePlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
-	private Socket socket;
 	private Pawn p1 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p2 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p3 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
 	private Pawn p4 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0);
-
-	private OutputStream os = null;
-
-	public int[][] matrix;
-	public JLabel[][] label = new JLabel[11][11];
-
 	private Dice dice = new Dice();
 
+	public JLabel[][] label = new JLabel[11][11];
+
+	private Socket socket;
+	private InputStream is;
+	private OutputStream os;
+	private ObjectMapper mapper = new ObjectMapper();
+
 	public TryBluePlayer() {
+//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
+//		try {
+//			socket = new Socket("localhost", Server.PORT);
+//			os = socket.getOutputStream();
+//		} catch (IOException e) {
+//			// TODO exception handling 
+//			e.printStackTrace();
+//		}
+		
 		setLayout(new GridLayout(11, 11));
-		try {
-			socket = new Socket("localhost", Server.PORT);
-			os = socket.getOutputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				label[i][j].addMouseListener(new Action());
+				if (!label[i][j].equals(label[5][5])) {
+					label[i][j].addMouseListener(new Action());
+				}
 				add(label[i][j]);
 			}
 		}
+		label[5][5].addMouseListener(new DiceAction());
 
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
 
+		setTitle("Blue player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-
-	private class Action extends MouseAdapter {
-
+	
+	private class DiceAction extends MouseAdapter {
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
-
 			if (e.getSource() == label[5][5]) {
 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
 						.getRandomNumber())));
@@ -73,6 +78,13 @@ public class TryBluePlayer extends JFrame {
 				p3.setDiceValue(dice.getValue());
 				p4.setDiceValue(dice.getValue());
 			}
+		}
+	}
+
+	private class Action extends MouseAdapter {
+
+		@Override
+		public void mousePressed(MouseEvent e) {
 
 			setSamePlayerUneatable();
 
@@ -102,35 +114,18 @@ public class TryBluePlayer extends JFrame {
 				}
 			}
 
-			Message m = new Message(p1.getX(), p2.getX(), p3.getX(), p4.getX(),
-					p1.getY(), p2.getY(), p3.getY(), p4.getY(), "blue");
+//			Message m = new Message(p1.getX(), p2.getX(), p3.getX(), p4.getX(),
+//					p1.getY(), p2.getY(), p3.getY(), p4.getY(), "blue");
+//
+//			ObjectMapper mapper = new ObjectMapper();
+//
+//			try {
+//				mapper.writeValue(os, m);
+//			} catch (IOException e2) {
+//				e2.printStackTrace();
+//			}
 
-			ObjectMapper mapper = new ObjectMapper();
-
-			try {
-				mapper.writeValue(os, m);
-			} catch (IOException e2) {
-				e2.printStackTrace();
-			}
-
-			// try {
-			// writer.write(p1.getX() + " " + p1.getY() + "blue");
-			// writer.newLine();
-			// writer.write(p2.getX() + " " + p2.getY() + "blue");
-			// writer.newLine();
-			// writer.write(p3.getX() + " " + p3.getY() + "blue");
-			// writer.newLine();
-			// writer.write(p4.getX() + " " + p4.getY() + "blue");
-			// writer.newLine();
-			// writer.flush();
-			// } catch (IOException e1) {
-			// // TODO Auto-generated catch block
-			// e1.printStackTrace();
-			// }
-			// System.out.println(p1.getX() + " " + p1.getY());
-			// System.out.println(p2.getX() + " " + p2.getY());
-			// System.out.println(p3.getX() + " " + p3.getY());
-			// System.out.println(p4.getX() + " " + p4.getY());
+	
 		}
 
 	}
