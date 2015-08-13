@@ -82,6 +82,7 @@ public class TryRedPlayer extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+<<<<<<< HEAD
 
 		// String serverIp =
 		// JOptionPane.showInputDialog("Enter server IP address");
@@ -99,6 +100,20 @@ public class TryRedPlayer extends JFrame {
 		// // TODO exception handling
 		// ex.printStackTrace();
 		// }
+=======
+		
+		//String serverIp = JOptionPane.showInputDialog("Enter server IP address");
+		try {
+			socket = new Socket("localhost", Server.PORT);
+			is = socket.getInputStream();
+			Message m = mapper.readValue(is, Message.class);
+			System.out.println(m.getX1() + " " + m.getY1());
+			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+		} catch (IOException ex) {
+			// TODO exception handling
+			ex.printStackTrace();
+		}
+>>>>>>> 98e6bdd967aeec3e860cb51b03cb29bb93e334b0
 	}
 
 	private class DiceAction extends MouseAdapter {

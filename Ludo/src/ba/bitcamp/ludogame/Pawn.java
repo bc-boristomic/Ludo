@@ -85,29 +85,29 @@ public class Pawn {
 		if (label[x][y].getBackground().equals(main)) {
 			if (tempMove >= 40 && tempMove < 43) {
 				label[x][y].setBackground(other);
-				label[x][y].setIcon(new ImageIcon(house));
+				//label[x][y].setIcon(new ImageIcon(house));
 			} else if (tempMove == 43) {
 
 			} else {
 				label[x][y].setBackground(white);
-				label[x][y].setIcon(new ImageIcon(background));
+				//label[x][y].setIcon(new ImageIcon(background));
 
 			}
 			if (tempMove + diceValue == tempMoveOther1
 					|| tempMove + diceValue == tempMoveOther2
 					|| tempMove + diceValue == tempMoveOther3) {
 				label[x][y].setBackground(main);
-				label[x][y].setIcon(new ImageIcon(pawn));
+				//label[x][y].setIcon(new ImageIcon(pawn));
 			} else if (tempMove + diceValue < 44) {
 				x = GameUtility.getMovement(main)[tempMove + diceValue][0];
 				y = GameUtility.getMovement(main)[tempMove + diceValue][1];
 				tempMove += diceValue;
 				label[x][y].setBackground(main);
-				label[x][y].setIcon(new ImageIcon(pawn));
+				//label[x][y].setIcon(new ImageIcon(pawn));
 
 			} else {
 				label[x][y].setBackground(main);
-				label[x][y].setIcon(new ImageIcon(pawn));
+				//label[x][y].setIcon(new ImageIcon(pawn));
 
 			}
 
