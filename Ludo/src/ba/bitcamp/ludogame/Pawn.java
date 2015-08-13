@@ -41,7 +41,7 @@ public class Pawn {
 		this.house = house;
 
 		try {
-			background = ImageIO.read(new File("road.jpg"));
+			background = ImageIO.read(new File("graphics/road.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

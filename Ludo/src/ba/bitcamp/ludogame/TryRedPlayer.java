@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -39,23 +40,11 @@ public class TryRedPlayer extends JFrame {
 
 	public TryRedPlayer() throws IOException {
 		
-//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
-//		try {
-//			socket = new Socket(serverIp, Server.PORT);
-//			is = socket.getInputStream();
-//			Message m = mapper.readValue(is, Message.class);
-//			System.out.println(m);
-//			System.out.println(m.getX1() + " " + m.getY1());
-//			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
-//		} catch (IOException ex) {
-//			// TODO exception handling
-//			ex.printStackTrace();
-//		}
 		
 		setLayout(new GridLayout(11, 11));
 		
-		BufferedImage pawn = ImageIO.read(new File("red.png"));
-		BufferedImage house = ImageIO.read(new File("home.png"));
+		BufferedImage pawn = ImageIO.read(new File("graphics/red.png"));
+		BufferedImage house = ImageIO.read(new File("graphics/home.png"));
 		
 		p1 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
 		p2 = new Pawn(4, 0, Color.RED, new Color(247, 64, 86), 0, pawn, house);
@@ -88,6 +77,18 @@ public class TryRedPlayer extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		
+		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
+		try {
+			socket = new Socket(serverIp, Server.PORT);
+			is = socket.getInputStream();
+			Message m = mapper.readValue(is, Message.class);
+			System.out.println(m.getX1() + " " + m.getY1());
+			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+		} catch (IOException ex) {
+			// TODO exception handling
+			ex.printStackTrace();
+		}
 	}
 	
 	private class DiceAction extends MouseAdapter {

@@ -31,12 +31,12 @@ public class Dice {
 	public Dice() {
 
 		try {
-			dice1 = ImageIO.read(new File("dice1.png"));
-			dice2 = ImageIO.read(new File("dice2.png"));
-			dice3 = ImageIO.read(new File("dice3.png"));
-			dice4 = ImageIO.read(new File("dice4.png"));
-			dice5 = ImageIO.read(new File("dice5.png"));
-			dice6 = ImageIO.read(new File("dice6.png"));
+			dice1 = ImageIO.read(new File("graphics/dice1.png"));
+			dice2 = ImageIO.read(new File("graphics/dice2.png"));
+			dice3 = ImageIO.read(new File("graphics/dice3.png"));
+			dice4 = ImageIO.read(new File("graphics/dice4.png"));
+			dice5 = ImageIO.read(new File("graphics/dice5.png"));
+			dice6 = ImageIO.read(new File("graphics/dice6.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();

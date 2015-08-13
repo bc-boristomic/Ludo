@@ -7,25 +7,24 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class PlayerGraphics {
-	
+
 	private BufferedImage blue;
 	private BufferedImage green;
 	private BufferedImage yellow;
 	private BufferedImage red;
 
-	
 	public PlayerGraphics() {
 		try {
-			blue = ImageIO.read(new File("blue.png"));
-			green = ImageIO.read(new File("green.png"));
-			yellow = ImageIO.read(new File("yellow.png"));
-			red = ImageIO.read(new File("red.png"));
+			blue = ImageIO.read(new File("graphics/blue.png"));
+			green = ImageIO.read(new File("graphics/green.png"));
+			yellow = ImageIO.read(new File("graphics/yellow.png"));
+			red = ImageIO.read(new File("graphics/red.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public BufferedImage getBlue() {
 		return blue;
 	}
@@ -33,11 +32,11 @@ public class PlayerGraphics {
 	public BufferedImage getGreen() {
 		return green;
 	}
-	
+
 	public BufferedImage getYellow() {
 		return yellow;
 	}
-	
+
 	public BufferedImage getRed() {
 		return red;
 	}

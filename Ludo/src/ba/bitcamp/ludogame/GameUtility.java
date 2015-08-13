@@ -153,7 +153,7 @@ public class GameUtility {
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("road.jpg"))));
+								.read(new File("graphics/road.jpg"))));
 					} else if (getGameMatrix()[i][j] == 4) {
 						label[i][j].setBackground(Color.BLUE);
 						label[i][j].setBorder(BorderFactory
@@ -170,29 +170,29 @@ public class GameUtility {
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("home.png"))));
+								.read(new File("graphics/home.png"))));
 					} else if (getGameMatrix()[i][j] == 0) {
 						label[i][j].setBackground(Color.LIGHT_GRAY);
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("caldram.jpg"))));
+								.read(new File("graphics/caldram.jpg"))));
 					} else if (getGameMatrix()[i][j] == 8) {
 						label[i][j].setBackground(new Color(179, 255, 179));
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("greenhome.png"))));
+								.read(new File("graphics/greenhome.png"))));
 					} else if (getGameMatrix()[i][j] == 9) {
 						label[i][j].setBackground(new Color(179, 217, 255));
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("bluehome.png"))));
+								.read(new File("graphics/bluehome.png"))));
 					} else if (getGameMatrix()[i][j] == 11) {
 						label[i][j].setBackground(new Color(235, 255, 122));
 						label[i][j].setBorder(BorderFactory
 								.createLineBorder(Color.BLACK));
 						label[i][j].setIcon(new ImageIcon(ImageIO
-								.read(new File("yellowhome.png"))));
+								.read(new File("graphics/yellowhome.png"))));
 					}
 				}
 			}

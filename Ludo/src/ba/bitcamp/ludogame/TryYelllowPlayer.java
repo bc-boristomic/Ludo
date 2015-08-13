@@ -30,8 +30,8 @@ public class TryYelllowPlayer extends JFrame {
 
 		setLayout(new GridLayout(11, 11));
 
-		BufferedImage pawn = ImageIO.read(new File("yellow.png"));
-		BufferedImage house = ImageIO.read(new File("yellowhome.png"));
+		BufferedImage pawn = ImageIO.read(new File("graphics/yellow.png"));
+		BufferedImage house = ImageIO.read(new File("graphics/yellowhome.png"));
 
 		p1 = new Pawn(10, 4, Color.YELLOW, new Color(235, 255, 122), 0, pawn,
 				house);

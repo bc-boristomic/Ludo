@@ -36,6 +36,7 @@ public class Server {
 	public Server() {
 		try {
 		server = new ServerSocket(PORT);
+		System.out.println("Server started");
 		while (true) {
 				client1 = server.accept();
 				os = client1.getOutputStream();

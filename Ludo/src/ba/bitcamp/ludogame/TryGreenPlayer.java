@@ -30,8 +30,8 @@ public class TryGreenPlayer extends JFrame {
 	public TryGreenPlayer() throws IOException {
 		setLayout(new GridLayout(11, 11));
 
-		BufferedImage pawn = ImageIO.read(new File("green.png"));
-		BufferedImage house = ImageIO.read(new File("greenhome.png"));
+		BufferedImage pawn = ImageIO.read(new File("graphics/green.png"));
+		BufferedImage house = ImageIO.read(new File("graphics/greenhome.png"));
 
 		p1 = new Pawn(0, 6, Color.GREEN, new Color(179, 255, 179), 0, pawn,
 				house);
