@@ -23,6 +23,7 @@ public class TryYelllowPlayer extends JFrame {
 	private Dice dice = new Dice();
 
 	public TryYelllowPlayer() {
+		
 		setLayout(new GridLayout(11, 11));
 
 		label = GameUtility.getGameLabels();
