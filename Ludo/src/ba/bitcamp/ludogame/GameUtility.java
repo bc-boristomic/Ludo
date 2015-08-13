@@ -1,15 +1,31 @@
 package ba.bitcamp.ludogame;
 
 import java.awt.Color;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/**
+ * Utility class used to setup all the game matrix used to move players and to
+ * setup initial game look.
+ * 
+ * @author boris.tomic
+ *
+ */
 public class GameUtility {
 
+	/**
+	 * For inputed <code>Color</code> type value returns <code>int</code> type
+	 * value of 2D array with allowed playable positions. Inputed color is used
+	 * to get position of player with that color. Only four color are allowed in
+	 * game since there are four player. Red, green, blue and yellow.
+	 * 
+	 * @param color
+	 *            <code>Color</code> type value of player on board
+	 * @return <code>int</code> type value of 2D array
+	 */
 	public static int[][] getMovement(Color color) {
 		if (color == Color.YELLOW) {
 			int[][] yellowMove = new int[][] { { 10, 4 }, { 9, 4 }, { 8, 4 },
@@ -63,6 +79,34 @@ public class GameUtility {
 
 	}
 
+	/**
+	 * Private method used to setup initial look of board. <code>int</code> type
+	 * value of 2D array is used to setup JLabel colors, borders and graphics.
+	 * <p>
+	 * 0 represents empty position with no movement at all.
+	 * <p>
+	 * 1 represents fields where every player can move.
+	 * <p>
+	 * 2 represents green player starting houses.
+	 * <p>
+	 * 3 represents red player starting houses.
+	 * <p>
+	 * 4 represents blue player starting houses.
+	 * <p>
+	 * 5 represents yellow player starting houses.
+	 * <p>
+	 * 6 represents dice graphics.
+	 * <p>
+	 * 7 represents red player finish houses.
+	 * <p>
+	 * 8 represents green player finish houses.
+	 * <p>
+	 * 9 represents blue player finish houses.
+	 * <p>
+	 * 11 represents yellow player finish houses.
+	 * 
+	 * @return
+	 */
 	private static int[][] getGameMatrix() {
 		int[][] matrix = new int[][] { { 3, 3, 0, 0, 1, 1, 1, 0, 0, 2, 2 },
 				{ 3, 3, 0, 0, 1, 8, 1, 0, 0, 2, 2 },
@@ -78,6 +122,13 @@ public class GameUtility {
 		return matrix;
 	}
 
+	/**
+	 * Public method getGameLabels sets <code>JLabel</code> type value of 2D
+	 * array using private method getGameMatrix. Depending on player position
+	 * read from matrix color, border and <tt>ImageIcon</tt> is set.
+	 * 
+	 * @return <code>JLabel</code> 2D array type value set with graphical looks.
+	 */
 	public static JLabel[][] getGameLabels() {
 		JLabel[][] label = new JLabel[11][11];
 		for (int i = 0; i < getGameMatrix().length; i++) {
