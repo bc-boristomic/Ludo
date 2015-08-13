@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+
 public class TryGreenPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
 
@@ -44,10 +45,14 @@ public class TryGreenPlayer extends JFrame {
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				label[i][j].addMouseListener(new Action());
+				if (!label[i][j].equals(label[5][5])) {
+					label[i][j].addMouseListener(new Action());
+				}
 				add(label[i][j]);
 			}
 		}
+		label[5][5].addMouseListener(new DiceAction());
+
 
 		label[0][10].setIcon(new ImageIcon(pawn));
 		label[0][9].setIcon(new ImageIcon(pawn));
@@ -59,25 +64,32 @@ public class TryGreenPlayer extends JFrame {
 		p3.setLabel(label);
 		p4.setLabel(label);
 
+		setTitle("Green player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+	}
+	
+	private class DiceAction extends MouseAdapter {
+		@Override
+ 		public void mousePressed(MouseEvent e) {
+ 			if (e.getSource() == label[5][5]) {
+ 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+ 						.getRandomNumber())));
+ 				p1.setDiceValue(dice.getValue());
+ 				p2.setDiceValue(dice.getValue());
+ 				p3.setDiceValue(dice.getValue());
+ 				p4.setDiceValue(dice.getValue());
+ 			}
+		}
 	}
 
 	private class Action extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
-						.getRandomNumber())));
-				p1.setDiceValue(dice.getValue());
-				p2.setDiceValue(dice.getValue());
-				p3.setDiceValue(dice.getValue());
-				p4.setDiceValue(dice.getValue());
-			}
-
+			
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {

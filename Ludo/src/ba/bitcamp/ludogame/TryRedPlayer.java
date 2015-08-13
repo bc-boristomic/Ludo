@@ -7,11 +7,17 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 public class TryRedPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
@@ -25,8 +31,27 @@ public class TryRedPlayer extends JFrame {
 	public JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
+	
+	private Socket socket;
+	private InputStream is;
+	private OutputStream os;
+	private ObjectMapper mapper = new ObjectMapper();
 
 	public TryRedPlayer() throws IOException {
+		
+//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
+//		try {
+//			socket = new Socket(serverIp, Server.PORT);
+//			is = socket.getInputStream();
+//			Message m = mapper.readValue(is, Message.class);
+//			System.out.println(m);
+//			System.out.println(m.getX1() + " " + m.getY1());
+//			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+//		} catch (IOException ex) {
+//			// TODO exception handling
+//			ex.printStackTrace();
+//		}
+		
 		setLayout(new GridLayout(11, 11));
 		
 		BufferedImage pawn = ImageIO.read(new File("red.png"));
@@ -40,10 +65,13 @@ public class TryRedPlayer extends JFrame {
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
-				label[i][j].addMouseListener(new Action());
+				if (!label[i][j].equals(label[5][5])) {
+					label[i][j].addMouseListener(new Action());
+				}
 				add(label[i][j]);
 			}
 		}
+		label[5][5].addMouseListener(new DiceAction());
 		
 		label[0][0].setIcon(new ImageIcon(pawn));
 		label[0][1].setIcon(new ImageIcon(pawn));
@@ -54,26 +82,33 @@ public class TryRedPlayer extends JFrame {
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
-
+		
+		setTitle("Red player");
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+	}
+	
+	private class DiceAction extends MouseAdapter {
+		@Override
+ 		public void mousePressed(MouseEvent e) {
+ 			if (e.getSource() == label[5][5]) {
+ 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+ 						.getRandomNumber())));
+ 				p1.setDiceValue(dice.getValue());
+ 				p2.setDiceValue(dice.getValue());
+ 				p3.setDiceValue(dice.getValue());
+ 				p4.setDiceValue(dice.getValue());
+ 			}
+		}
 	}
 
 	private class Action extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.getSource() == label[5][5]) {
-				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
-						.getRandomNumber())));
-				p1.setDiceValue(dice.getValue());
-				p2.setDiceValue(dice.getValue());
-				p3.setDiceValue(dice.getValue());
-				p4.setDiceValue(dice.getValue());
-			}
-
+			
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {
