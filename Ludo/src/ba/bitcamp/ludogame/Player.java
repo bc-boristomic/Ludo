@@ -19,42 +19,41 @@ import javax.swing.JOptionPane;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-
 public class Player extends JFrame {
 	private static final long serialVersionUID = -1789540956904875170L;
-	
-	private Pawn p1; 
-	private Pawn p2; 
-	private Pawn p3; 
+
+	private Pawn p1;
+	private Pawn p2;
+	private Pawn p3;
 	private Pawn p4;
 
 	public int[][] matrix;
 	public JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
-	
+
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
 	private ObjectMapper mapper = new ObjectMapper();
-	
+
 	private Color main;
 	private Color other;
-	
+
 	private BufferedImage pawn;
 	private BufferedImage house;
-	
+
 	private int x;
 	private int y;
-	
 
-	public Player(Color main, Color other, BufferedImage pawn, BufferedImage house) throws IOException {
-		
+	public Player(Color main, Color other, BufferedImage pawn,
+			BufferedImage house) throws IOException {
+
 		this.main = main;
 		this.other = other;
 		this.pawn = pawn;
 		this.house = house;
-		
+
 		String name = JOptionPane.showInputDialog("Enter your name");
 		setLayout(new GridLayout(11, 11));
 		if (main == Color.BLUE) {
@@ -66,17 +65,16 @@ public class Player extends JFrame {
 		} else if (main == Color.GREEN) {
 			x = 0;
 			y = 6;
-		} else if(main == Color.YELLOW) {
+		} else if (main == Color.YELLOW) {
 			x = 10;
 			y = 4;
 		}
-		
-		
+
 		p1 = new Pawn(x, y, main, other, 0, pawn, house);
 		p2 = new Pawn(x, y, main, other, 0, pawn, house);
 		p3 = new Pawn(x, y, main, other, 0, pawn, house);
 		p4 = new Pawn(x, y, main, other, 0, pawn, house);
-		
+
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
@@ -87,47 +85,44 @@ public class Player extends JFrame {
 			}
 		}
 		label[5][5].addMouseListener(new DiceAction());
-		
-		label[0][0].setIcon(new ImageIcon(pawn));
-		label[0][1].setIcon(new ImageIcon(pawn));
-		label[1][0].setIcon(new ImageIcon(pawn));
-		label[1][1 ].setIcon(new ImageIcon(pawn));
 
+		
 		p1.setLabel(label);
 		p2.setLabel(label);
 		p3.setLabel(label);
 		p4.setLabel(label);
-		
+
 		setTitle(name);
 		setSize(800, 800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		
-//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
-//		try {
-//			socket = new Socket("localhost", Server.PORT);
-//			is = socket.getInputStream();
-//			Message m = mapper.readValue(is, Message.class);
-//			System.out.println(m.getX1() + " " + m.getY1());
-//			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
-//		} catch (IOException ex) {
-//			// TODO exception handling
-//			ex.printStackTrace();
-//		}
+
+		// String serverIp =
+		// JOptionPane.showInputDialog("Enter server IP address");
+		// try {
+		// socket = new Socket("localhost", Server.PORT);
+		// is = socket.getInputStream();
+		// Message m = mapper.readValue(is, Message.class);
+		// System.out.println(m.getX1() + " " + m.getY1());
+		// label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+		// } catch (IOException ex) {
+		// // TODO exception handling
+		// ex.printStackTrace();
+		// }
 	}
-	
+
 	private class DiceAction extends MouseAdapter {
 		@Override
- 		public void mousePressed(MouseEvent e) {
- 			if (e.getSource() == label[5][5]) {
- 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
- 						.getRandomNumber())));
- 				p1.setDiceValue(dice.getValue());
- 				p2.setDiceValue(dice.getValue());
- 				p3.setDiceValue(dice.getValue());
- 				p4.setDiceValue(dice.getValue());
- 			}
+		public void mousePressed(MouseEvent e) {
+			if (e.getSource() == label[5][5]) {
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
+				p1.setDiceValue(dice.getValue());
+				p2.setDiceValue(dice.getValue());
+				p3.setDiceValue(dice.getValue());
+				p4.setDiceValue(dice.getValue());
+			}
 		}
 	}
 
@@ -135,7 +130,7 @@ public class Player extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			
+
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {
@@ -148,20 +143,63 @@ public class Player extends JFrame {
 				p4.movement();
 			}
 
-			// TODO fix color issues
 			if (dice.getValue() == 6) {
-				if (e.getSource() == label[0][0]
-						&& label[0][0].getBackground().equals(main)) {
-					ExitHouseUtility.setRedPlayerHouse(1, label);
-				} else if (e.getSource() == label[0][1]
-						&& label[0][1].getBackground().equals(main)) {
-					ExitHouseUtility.setRedPlayerHouse(2, label);
-				} else if (e.getSource() == label[1][0]
-						&& label[1][0].getBackground().equals(main)) {
-					ExitHouseUtility.setRedPlayerHouse(3, label);
-				} else if (e.getSource() == label[1][1]
-						&& label[1][1].getBackground().equals(main)) {
-					ExitHouseUtility.setRedPlayerHouse(4, label);
+				if (main == Color.RED) {
+					if (e.getSource() == label[0][0]
+							&& label[0][0].getBackground().equals(main)) {
+						ExitHouseUtility.setRedPlayerHouse(1, label);
+					} else if (e.getSource() == label[0][1]
+							&& label[0][1].getBackground().equals(main)) {
+						ExitHouseUtility.setRedPlayerHouse(2, label);
+					} else if (e.getSource() == label[1][0]
+							&& label[1][0].getBackground().equals(main)) {
+						ExitHouseUtility.setRedPlayerHouse(3, label);
+					} else if (e.getSource() == label[1][1]
+							&& label[1][1].getBackground().equals(main)) {
+						ExitHouseUtility.setRedPlayerHouse(4, label);
+					}
+				} else if (main == Color.BLUE) {
+					if (e.getSource() == label[10][10]
+							&& label[10][10].getBackground().equals(Color.BLUE)) {
+						ExitHouseUtility.setBluePlayer(4, label);
+					} else if (e.getSource() == label[10][9]
+							&& label[10][9].getBackground().equals(Color.BLUE)) {
+						ExitHouseUtility.setBluePlayer(3, label);
+					} else if (e.getSource() == label[9][10]
+							&& label[9][10].getBackground().equals(Color.BLUE)) {
+						ExitHouseUtility.setBluePlayer(2, label);
+					} else if (e.getSource() == label[9][9]
+							&& label[9][9].getBackground().equals(Color.BLUE)) {
+						ExitHouseUtility.setBluePlayer(1, label);
+					}
+				} else if (main == Color.GREEN) {
+					if (e.getSource() == label[0][10]
+							&& label[0][10].getBackground().equals(Color.GREEN)) {
+						ExitHouseUtility.setGreenPlayer(2, label);
+					} else if (e.getSource() == label[0][9]
+							&& label[0][9].getBackground().equals(Color.GREEN)) {
+						ExitHouseUtility.setGreenPlayer(1, label);
+					} else if (e.getSource() == label[1][10]
+							&& label[1][10].getBackground().equals(Color.GREEN)) {
+						ExitHouseUtility.setGreenPlayer(4, label);
+					} else if (e.getSource() == label[1][9]
+							&& label[1][9].getBackground().equals(Color.GREEN)) {
+						ExitHouseUtility.setGreenPlayer(3, label);
+					}
+				} else if (main == Color.YELLOW) {
+					if (e.getSource() == label[10][0]
+							&& label[10][0].getBackground().equals(Color.YELLOW)) {
+						ExitHouseUtility.setYellowPlayer(3, label);
+					} else if (e.getSource() == label[9][0]
+							&& label[9][0].getBackground().equals(Color.YELLOW)) {
+						ExitHouseUtility.setYellowPlayer(1, label);
+					} else if (e.getSource() == label[10][1]
+							&& label[10][1].getBackground().equals(Color.YELLOW)) {
+						ExitHouseUtility.setYellowPlayer(4, label);
+					} else if (e.getSource() == label[9][1]
+							&& label[9][1].getBackground().equals(Color.YELLOW)) {
+						ExitHouseUtility.setYellowPlayer(2, label);
+					}
 				}
 			}
 		}
@@ -186,17 +224,17 @@ public class Player extends JFrame {
 		p4.setTempMoveOther3(p3.getTempMove());
 	}
 
-//	public static void main(String[] args) {
-//		PlayerGraphics pg = new PlayerGraphics();
-//
-//
-//		try {
-//			new Player(Color.RED, new Color(247, 64, 86), pg.getRed(), pg.getRedHouse());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-	
+	// public static void main(String[] args) {
+	// PlayerGraphics pg = new PlayerGraphics();
+	//
+	//
+	// try {
+	// new Player(Color.RED, new Color(247, 64, 86), pg.getRed(),
+	// pg.getRedHouse());
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 
 }

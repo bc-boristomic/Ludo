@@ -10,6 +10,9 @@ public class TestAllPlayers {
 		PlayerGraphics pg = new PlayerGraphics();
 		try {
 			Player blue = new Player(Color.BLUE, MyColors.BLUE_LIGHT, pg.getBlue(), pg.getBlueHouse());
+			Player red = new Player(Color.RED, MyColors.RED_LIGHT, pg.getRed(), pg.getRedHouse());
+			Player green = new Player(Color.GREEN, MyColors.GREEN_LIGHT, pg.getGreen(), pg.getGreenHouse());
+			Player yellow = new Player(Color.YELLOW, MyColors.YELLOW_LIGHT, pg.getYellow(), pg.getYellowHouse());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
