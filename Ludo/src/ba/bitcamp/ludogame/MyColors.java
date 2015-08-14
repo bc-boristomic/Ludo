@@ -2,6 +2,14 @@ package ba.bitcamp.ludogame;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class MyColors {
 
 	public static final Color BLUE_LIGHT = new Color(179, 217, 255);

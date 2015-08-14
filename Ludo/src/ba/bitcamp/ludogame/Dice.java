@@ -11,7 +11,10 @@ import javax.imageio.ImageIO;
  * value that can be in range from 1 to 6, and images that are graphical
  * representation of that value.
  * 
- * @author boris.tomic
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
  *
  */
 public class Dice {

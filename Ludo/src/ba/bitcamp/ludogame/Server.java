@@ -14,6 +14,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class Server {
 
 	protected static final int PORT = 8000;

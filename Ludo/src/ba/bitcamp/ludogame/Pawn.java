@@ -9,6 +9,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class Pawn {
 
 	private Color main;

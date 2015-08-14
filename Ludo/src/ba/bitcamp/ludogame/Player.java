@@ -19,6 +19,14 @@ import javax.swing.JOptionPane;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class Player extends JFrame {
 	private static final long serialVersionUID = -1789540956904875170L;
 

@@ -6,6 +6,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class PlayerGraphics {
 
 	private BufferedImage blue;

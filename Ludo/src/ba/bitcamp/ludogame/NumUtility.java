@@ -6,7 +6,10 @@ import java.util.Random;
  * Utility class <tt>NumUtility</tt> used to call static method that manipulate
  * number values.
  * 
- * @author boris.tomic
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
  *
  */
 public class NumUtility {

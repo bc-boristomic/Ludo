@@ -3,6 +3,14 @@ package ba.bitcamp.ludogame;
 import java.awt.Color;
 import java.io.IOException;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class TestAllPlayers {
 	
 	public static void main(String[] args) {

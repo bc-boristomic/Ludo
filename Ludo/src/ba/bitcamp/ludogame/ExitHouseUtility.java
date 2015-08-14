@@ -12,7 +12,10 @@ import javax.swing.JLabel;
  * Utility class <tt>ExitHouseUtility</tt> used to call static methods that set
  * player exiting houses.
  * 
- * @author boris.tomic
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
  *
  */
 public class ExitHouseUtility {

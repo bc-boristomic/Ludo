@@ -14,7 +14,10 @@ import javax.swing.JLabel;
  * Utility class used to setup all the game matrix used to move players and to
  * setup initial game look.
  * 
- * @author boris.tomic
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
  *
  */
 public class GameUtility {

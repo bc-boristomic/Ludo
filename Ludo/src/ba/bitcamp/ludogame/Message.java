@@ -1,5 +1,13 @@
 package ba.bitcamp.ludogame;
 
+/**
+ * 
+ * @author Becir Omerbasic
+ * @author Edin Pilavdzic
+ * @author Nidal Salkic
+ * @author Boris Tomic
+ *
+ */
 public class Message {
 
 	private int x1;
