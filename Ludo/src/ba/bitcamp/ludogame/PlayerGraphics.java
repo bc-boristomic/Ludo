@@ -28,7 +28,7 @@ public class PlayerGraphics {
 			yellowHouse = ImageIO.read(new File("graphics/yellowhome.png"));
 			redHouse = ImageIO.read(new File("graphics/home.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new NullPointerException("No image at given location");
 		}
 
 	}
@@ -48,22 +48,21 @@ public class PlayerGraphics {
 	public BufferedImage getRed() {
 		return red;
 	}
-	
+
 	public BufferedImage getBlueHouse() {
 		return blueHouse;
 	}
-	
+
 	public BufferedImage getGreenHouse() {
 		return greenHouse;
 	}
-	
+
 	public BufferedImage getYellowHouse() {
 		return yellowHouse;
 	}
-	
+
 	public BufferedImage getRedHouse() {
 		return redHouse;
 	}
-	
 
 }

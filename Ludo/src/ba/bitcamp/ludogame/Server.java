@@ -43,7 +43,6 @@ public class Server {
 	public Server() {
 
 		try {
-<<<<<<< HEAD
 			server = new ServerSocket(PORT);
 			System.out.println("Server started");
 			clients = new LinkedBlockingQueue<>();
@@ -77,22 +76,7 @@ public class Server {
 			// readers.add(reader3);
 			// readers.add(reader4);
 			new Client().start();
-=======
-		server = new ServerSocket(PORT);
-		System.out.println("Server started");
-		while (true) {
-				client1 = server.accept();
-				os = client1.getOutputStream();
-		//		client2 = server.accept();
-				System.out.println("Connected");
-					Message m = new Message(8, 6, 6, 6, 4, 10, 10, 10, "blue");
-					System.out.println(m);
-					mapper.writeValue(os, m);
-				//client1.close();
-//				mapper.writeValue(client3.getOutputStream(), m);
-//				mapper.writeValue(client4.getOutputStream(), m);
-			
->>>>>>> 98e6bdd967aeec3e860cb51b03cb29bb93e334b0
+		
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -57,13 +57,13 @@ public class TryBluePlayer extends JFrame {
 		BufferedImage pawn = ImageIO.read(new File("graphics/blue.png"));
 		BufferedImage house = ImageIO.read(new File("graphics/bluehome.png"));
 
-		p1 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0, pawn,
+		p1 = new Pawn(6, 10, Color.BLUE, MyColors.BLUE_LIGHT, 0, pawn,
 				house);
-		p2 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0, pawn,
+		p2 = new Pawn(6, 10, Color.BLUE, MyColors.BLUE_LIGHT, 0, pawn,
 				house);
-		p3 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0, pawn,
+		p3 = new Pawn(6, 10, Color.BLUE, MyColors.BLUE_LIGHT, 0, pawn,
 				house);
-		p4 = new Pawn(6, 10, Color.BLUE, new Color(179, 217, 255), 0, pawn,
+		p4 = new Pawn(6, 10, Color.BLUE, MyColors.BLUE_LIGHT, 0, pawn,
 				house);
 
 		setLayout(new GridLayout(11, 11));

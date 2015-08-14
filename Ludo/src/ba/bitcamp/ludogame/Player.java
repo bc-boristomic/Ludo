@@ -44,6 +44,9 @@ public class Player extends JFrame {
 	private BufferedImage pawn;
 	private BufferedImage house;
 	
+	private int x;
+	private int y;
+	
 
 	public Player(Color main, Color other, BufferedImage pawn, BufferedImage house) throws IOException {
 		
@@ -54,12 +57,26 @@ public class Player extends JFrame {
 		
 		String name = JOptionPane.showInputDialog("Enter your name");
 		setLayout(new GridLayout(11, 11));
+		if (main == Color.BLUE) {
+			x = 6;
+			y = 10;
+		} else if (main == Color.RED) {
+			x = 4;
+			y = 0;
+		} else if (main == Color.GREEN) {
+			x = 0;
+			y = 6;
+		} else if(main == Color.YELLOW) {
+			x = 10;
+			y = 4;
+		}
 		
-		p1 = new Pawn(4, 0, main, other, 0, pawn, house);
-		p2 = new Pawn(4, 0, main, other, 0, pawn, house);
-		p3 = new Pawn(4, 0, main, other, 0, pawn, house);
-		p4 = new Pawn(4, 0, main, other, 0, pawn, house);
-
+		
+		p1 = new Pawn(x, y, main, other, 0, pawn, house);
+		p2 = new Pawn(x, y, main, other, 0, pawn, house);
+		p3 = new Pawn(x, y, main, other, 0, pawn, house);
+		p4 = new Pawn(x, y, main, other, 0, pawn, house);
+		
 		label = GameUtility.getGameLabels();
 		for (int i = 0; i < label.length; i++) {
 			for (int j = 0; j < label[i].length; j++) {
@@ -87,17 +104,17 @@ public class Player extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		//String serverIp = JOptionPane.showInputDialog("Enter server IP address");
-		try {
-			socket = new Socket("localhost", Server.PORT);
-			is = socket.getInputStream();
-			Message m = mapper.readValue(is, Message.class);
-			System.out.println(m.getX1() + " " + m.getY1());
-			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
-		} catch (IOException ex) {
-			// TODO exception handling
-			ex.printStackTrace();
-		}
+//		String serverIp = JOptionPane.showInputDialog("Enter server IP address");
+//		try {
+//			socket = new Socket("localhost", Server.PORT);
+//			is = socket.getInputStream();
+//			Message m = mapper.readValue(is, Message.class);
+//			System.out.println(m.getX1() + " " + m.getY1());
+//			label[m.getX1()][m.getY1()].setBackground(Color.BLUE);
+//		} catch (IOException ex) {
+//			// TODO exception handling
+//			ex.printStackTrace();
+//		}
 	}
 	
 	private class DiceAction extends MouseAdapter {
@@ -131,6 +148,7 @@ public class Player extends JFrame {
 				p4.movement();
 			}
 
+			// TODO fix color issues
 			if (dice.getValue() == 6) {
 				if (e.getSource() == label[0][0]
 						&& label[0][0].getBackground().equals(main)) {
@@ -168,17 +186,17 @@ public class Player extends JFrame {
 		p4.setTempMoveOther3(p3.getTempMove());
 	}
 
-	public static void main(String[] args) {
-		PlayerGraphics pg = new PlayerGraphics();
-
-
-		try {
-			new Player(Color.RED, new Color(247, 64, 86), pg.getRed(), pg.getRedHouse());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		PlayerGraphics pg = new PlayerGraphics();
+//
+//
+//		try {
+//			new Player(Color.RED, new Color(247, 64, 86), pg.getRed(), pg.getRedHouse());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 
 }
