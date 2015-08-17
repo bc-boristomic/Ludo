@@ -9,7 +9,7 @@ public class Data {
 	private boolean hasWon;
 	
 	public Data() {
-		super();
+		
 	}
 
 	public Data(int[][] gameData, int currentPlayer, boolean hasWon) {

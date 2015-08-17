@@ -91,8 +91,22 @@ public class TryYelllowPlayer extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		Thread t = new Listener();
-		t.start();
+		
+		while (true) {
+			try {
+				String json = reader.readLine();
+				Data temp = mapper.readValue(json, Data.class);
+				System.out.println("green from server");
+				System.out.println(Arrays.toString(temp.getGameData()));
+				label = GameUtility.getGameLabels(temp.getGameData());
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 	}
 
 	private class DiceAction extends MouseAdapter {

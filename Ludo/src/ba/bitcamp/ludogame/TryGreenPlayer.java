@@ -91,8 +91,24 @@ public class TryGreenPlayer extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		Thread t = new Listener();
-		t.start();
+		
+		while (true) {
+			try {
+				String json = reader.readLine();
+				Data temp = mapper.readValue(json, Data.class);
+				System.out.println("green from server");
+				System.out.println(temp.getGameData());
+				System.out.println(temp);
+				System.out.println("json string from server to green");
+				System.out.println(json);
+				label = GameUtility.getGameLabels(temp.getGameData());
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private class DiceAction extends MouseAdapter {
@@ -187,6 +203,8 @@ public class TryGreenPlayer extends JFrame {
 			Data temp = new Data(arr, 1, false);
 			try {
 				String json = mapper.writeValueAsString(temp);
+				System.out.println("data sent to server");
+				System.out.println(json);
 				writer.write(json);
 				writer.newLine();
 				writer.flush();
@@ -228,17 +246,7 @@ public class TryGreenPlayer extends JFrame {
 		@Override
 		public void run() {
 			while (true) {
-				try {
-					String json = reader.readLine();
-					Data temp = mapper.readValue(json, Data.class);
-					System.out.println("green from server");
-					System.out.println(Arrays.toString(temp.getGameData()));
-					label = GameUtility.getGameLabels(temp.getGameData());
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 			}
 		}
 	}
