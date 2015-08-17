@@ -5,13 +5,23 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 public class TryYelllowPlayer extends JFrame {
 	private static final long serialVersionUID = 311184114665588161L;
@@ -21,12 +31,25 @@ public class TryYelllowPlayer extends JFrame {
 	private static Pawn p3;
 	private static Pawn p4;
 
-	public int[][] matrix;
-	public JLabel[][] label = new JLabel[11][11];
+	private int[][] matrix;
+	private static JLabel[][] label = new JLabel[11][11];
 
 	private Dice dice = new Dice();
-		
+
+	private static BufferedReader reader;
+	private BufferedWriter writer;
+
+	private static ObjectMapper mapper;
+	private Socket connectTo;
+
 	public TryYelllowPlayer() throws IOException {
+
+		connectTo = new Socket("localhost", 8000);
+		reader = new BufferedReader(new InputStreamReader(
+				connectTo.getInputStream()));
+		writer = new BufferedWriter(new OutputStreamWriter(
+				connectTo.getOutputStream()));
+		mapper = new ObjectMapper();
 
 		setLayout(new GridLayout(11, 11));
 
@@ -53,7 +76,6 @@ public class TryYelllowPlayer extends JFrame {
 		}
 		label[5][5].addMouseListener(new DiceAction());
 
-
 		label[10][0].setIcon(new ImageIcon(pawn));
 		label[9][0].setIcon(new ImageIcon(pawn));
 		label[9][1].setIcon(new ImageIcon(pawn));
@@ -69,19 +91,21 @@ public class TryYelllowPlayer extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		Thread t = new Listener();
+		t.start();
 	}
-	
+
 	private class DiceAction extends MouseAdapter {
 		@Override
- 		public void mousePressed(MouseEvent e) {
- 			if (e.getSource() == label[5][5]) {
- 				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
- 						.getRandomNumber())));
- 				p1.setDiceValue(dice.getValue());
- 				p2.setDiceValue(dice.getValue());
- 				p3.setDiceValue(dice.getValue());
- 				p4.setDiceValue(dice.getValue());
- 			}
+		public void mousePressed(MouseEvent e) {
+			if (e.getSource() == label[5][5]) {
+				label[5][5].setIcon(new ImageIcon(dice.getRandomDice(NumUtility
+						.getRandomNumber())));
+				p1.setDiceValue(dice.getValue());
+				p2.setDiceValue(dice.getValue());
+				p3.setDiceValue(dice.getValue());
+				p4.setDiceValue(dice.getValue());
+			}
 		}
 	}
 
@@ -89,7 +113,7 @@ public class TryYelllowPlayer extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			
+
 			setSamePlayerUneatable();
 
 			if (e.getSource() == label[p1.getX()][p1.getY()]) {
@@ -117,6 +141,66 @@ public class TryYelllowPlayer extends JFrame {
 					ExitHouseUtility.setYellowPlayer(2, label);
 				}
 			}
+
+			int[][] arr = new int[label.length][label.length];
+
+			for (int i = 0; i < label.length; i++) {
+				for (int j = 0; j < label[i].length; j++) {
+					if (label[i][j].getBackground().equals(Color.RED)) {
+						arr[i][j] = 3;
+					} else if (label[i][j].getBackground().equals(Color.GREEN)) {
+						arr[i][j] = 2;
+					} else if (label[i][j].getBackground().equals(Color.WHITE)) {
+						arr[i][j] = 1;
+					} else if (label[i][j].getBackground().equals(Color.BLUE)) {
+						arr[i][j] = 4;
+					} else if (label[i][j].getBackground().equals(Color.YELLOW)) {
+						arr[i][j] = 5;
+					} else if (label[i][j].getBackground().equals(
+							MyColors.RED_LIGHT)) {
+						arr[i][j] = 7;
+					} else if (label[i][j].getBackground().equals(
+							Color.LIGHT_GRAY)) {
+						arr[i][j] = 0;
+					} else if (label[i][j].getBackground().equals(
+							MyColors.GREEN_LIGHT)) {
+						arr[i][j] = 8;
+					} else if (label[i][j].getBackground().equals(
+							MyColors.BLUE_LIGHT)) {
+						arr[i][j] = 9;
+					} else if (label[i][j].getBackground().equals(
+							MyColors.YELLOW_LIGHT)) {
+						arr[i][j] = 11;
+					} else {
+						arr[i][j] = 6;
+					}
+				}
+			}
+			for (int i = 0; i < arr.length; i++) {
+				for (int j = 0; j < arr[i].length; j++) {
+					System.out.print(arr[i][j]);
+				}
+				System.out.println();
+			}
+			System.out.println();
+
+			Data temp = new Data(arr, 1, false);
+			try {
+				String json = mapper.writeValueAsString(temp);
+				writer.write(json);
+				writer.newLine();
+				writer.flush();
+
+			} catch (JsonGenerationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -138,11 +222,32 @@ public class TryYelllowPlayer extends JFrame {
 		p4.setTempMoveOther2(p2.getTempMove());
 		p4.setTempMoveOther3(p3.getTempMove());
 	}
+	
+	private static class Listener extends Thread {
+
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					String json = reader.readLine();
+					Data temp = mapper.readValue(json, Data.class);
+					System.out.println("yellow from server");
+					System.out.println(Arrays.toString(temp.getGameData()));
+					label = GameUtility.getGameLabels(temp.getGameData());
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 
 		try {
 			new TryYelllowPlayer();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

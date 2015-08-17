@@ -135,7 +135,79 @@ public class GameUtility {
 	 * 
 	 * @return <code>JLabel</code> 2D array type value set with graphical looks.
 	 */
-	public static JLabel[][] getGameLabels() {
+	public static JLabel[][] getGameLabels(/*int[][] setupMatrix*/) {
+		try {
+			JLabel[][] label = new JLabel[11][11];
+			for (int i = 0; i < getGameMatrix().length; i++) {
+				for (int j = 0; j < getGameMatrix()[i].length; j++) {
+					label[i][j] = new JLabel();
+					label[i][j].setOpaque(true);
+					label[i][j].setHorizontalAlignment(JFrame.NORMAL);
+					if (getGameMatrix()[i][j] == 3) {
+						label[i][j].setBackground(Color.RED);
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+					} else if (getGameMatrix()[i][j] == 2) {
+						label[i][j].setBackground(Color.GREEN);
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+					} else if (getGameMatrix()[i][j] == 1) {
+						label[i][j].setBackground(Color.WHITE);
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+						//label[i][j].setIcon(new ImageIcon(ImageIO.read(new File("graphics/road.jpg"))));
+					} else if (getGameMatrix()[i][j] == 4) {
+						label[i][j].setBackground(Color.BLUE);
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+					} else if (getGameMatrix()[i][j] == 5) {
+						label[i][j].setBackground(Color.YELLOW);
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+					} else if (getGameMatrix()[i][j] == 6) {
+						label[i][j].setIcon(new ImageIcon(new Dice()
+								.getRandomDice(6)));
+					} else if (getGameMatrix()[i][j] == 7) {
+						label[i][j].setBackground(new Color(247, 64, 86));
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+						label[i][j].setIcon(new ImageIcon(ImageIO
+								.read(new File("graphics/home.png"))));
+					} else if (getGameMatrix()[i][j] == 0) {
+						label[i][j].setBackground(Color.LIGHT_GRAY);
+						label[i][j].setIcon(new ImageIcon(ImageIO
+								.read(new File("graphics/caldram.jpg"))));
+					} else if (getGameMatrix()[i][j] == 8) {
+						label[i][j].setBackground(new Color(179, 255, 179));
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+						label[i][j].setIcon(new ImageIcon(ImageIO
+								.read(new File("graphics/greenhome.png"))));
+					} else if (getGameMatrix()[i][j] == 9) {
+						label[i][j].setBackground(new Color(179, 217, 255));
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+						label[i][j].setIcon(new ImageIcon(ImageIO
+								.read(new File("graphics/bluehome.png"))));
+					} else if (getGameMatrix()[i][j] == 11) {
+						label[i][j].setBackground(new Color(235, 255, 122));
+						label[i][j].setBorder(BorderFactory
+								.createLineBorder(Color.BLACK));
+						label[i][j].setIcon(new ImageIcon(ImageIO
+								.read(new File("graphics/yellowhome.png"))));
+					}
+				}
+			}
+			return label;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public static JLabel[][] getGameLabels(int[][] setupMatrix) {
 		try {
 			JLabel[][] label = new JLabel[11][11];
 			for (int i = 0; i < getGameMatrix().length; i++) {
